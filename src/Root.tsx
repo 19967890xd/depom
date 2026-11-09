@@ -1,10 +1,12 @@
 import React from "react";
 import { Composition } from "remotion";
 import { Scene3D } from "./Scene3D";
+import { GlassWidgets } from "./GlassWidgets";
 
 export const RemotionRoot: React.FC = () => {
   return (
-    <Composition
+    <>
+      <Composition
       id="Scene3D"
       component={Scene3D}
       durationInFrames={150}
@@ -12,5 +14,14 @@ export const RemotionRoot: React.FC = () => {
       width={1920}
       height={1080}
     />
+      <Composition
+        id="GlassWidgets"
+        component={GlassWidgets}
+        durationInFrames={300}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+    </>
   );
 };

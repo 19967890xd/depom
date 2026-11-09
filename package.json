@@ -5,7 +5,8 @@
   "description": "Remotion + Three.js 3D video",
   "scripts": {
     "studio": "remotion studio",
-    "render": "remotion render Scene3D out/video.mp4"
+    "render": "remotion render Scene3D out/video.mp4",
+    "render:glass": "remotion render GlassWidgets out/glass-widgets.mp4"
   },
   "dependencies": {
     "@react-three/fiber": "^8.17.10",
