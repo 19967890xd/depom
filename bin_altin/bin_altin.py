@@ -129,30 +129,30 @@ def bubble(ctx, bx, by, rx, ry, tail, inner):
 # ---------------------------------------------------------------- backgrounds
 def bg_haram_night(ctx, t):
     ctx.rectangle(-600, -400, 2300, 1800)
-    ctx.set_source(lgrad(0, -300, 0, 1250, [(0, '#0b1030'), (0.6, '#1d2a5a'), (1, '#3a3a70')])); ctx.fill()
+    ctx.set_source(lgrad(0, -300, 0, 1250, [(0, '#140a3a'), (0.55, '#3a1a6a'), (0.85, '#8a2a7a'), (1, '#d9507a')])); ctx.fill()
     B.stars(ctx, t, 700, 50)
-    circ(ctx, 860, 230, 60); setc(ctx, '#fff6d8'); ctx.fill(); circ(ctx, 885, 215, 52); setc(ctx, '#0f1538'); ctx.fill()
+    circ(ctx, 860, 230, 60); setc(ctx, '#fff6d8'); ctx.fill(); circ(ctx, 885, 215, 52); setc(ctx, '#170c3e'); ctx.fill()
     # arcades
-    setc(ctx, '#2a2f5a')
+    setc(ctx, '#2a1650')
     ctx.rectangle(-600, 850, 2300, 400); ctx.fill()
     for k in range(-6, 16):
         x0 = k * 120
         ctx.new_path(); ctx.move_to(x0 + 15, 1250); ctx.line_to(x0 + 15, 960); ctx.arc(x0 + 60, 960, 45, PI, 2 * PI); ctx.line_to(x0 + 105, 1250); ctx.close_path()
         setc(ctx, '#ffd98a', 0.55); ctx.fill()
     for mx in (-80, 1160):
-        ctx.rectangle(mx - 20, 350, 40, 900); setc(ctx, '#2a2f5a'); ctx.fill()
+        ctx.rectangle(mx - 20, 350, 40, 900); setc(ctx, '#2a1650'); ctx.fill()
         ctx.move_to(mx - 26, 355); ctx.line_to(mx, 250); ctx.line_to(mx + 26, 355); ctx.close_path(); ctx.fill()
         glow(ctx, mx, 500, 60, '#ffd98a', 0.6)
     ctx.rectangle(-600, 1250, 2300, 1200)
-    ctx.set_source(lgrad(0, 1250, 0, 1900, [(0, '#c9cbd8'), (1, '#8f93ad')])); ctx.fill()
+    ctx.set_source(lgrad(0, 1250, 0, 1900, [(0, '#e6d6ec'), (1, '#9a86b8')])); ctx.fill()
     for k in range(1, 9):
         ell(ctx, 540, 1255, 300 + k * 140, 30 + k * 32); setc(ctx, '#ffffff', 0.25); ctx.set_line_width(3); ctx.stroke()
     kaaba(ctx, 560, 1250, 0.95)
 
 def bg_street_day(ctx, t, tone='#ffe9c4'):
     ctx.rectangle(-600, -400, 2300, 1800)
-    ctx.set_source(lgrad(0, -300, 0, 1200, [(0, '#7ec8f0'), (1, tone)])); ctx.fill()
-    glow(ctx, 900, 250, 220, '#fff2b0', 0.8); circ(ctx, 900, 250, 70); setc(ctx, '#ffe066'); ctx.fill()
+    ctx.set_source(lgrad(0, -300, 0, 1200, [(0, '#6a5ad8'), (0.5, '#ff8ab8'), (1, '#ffd9a0')])); ctx.fill()
+    B.retro_sun(ctx, 820, 560, 210)
     rnd = random.Random(7)
     for k in range(-4, 10):
         x0 = k * 190; hh = rnd.uniform(420, 620)
@@ -534,7 +534,7 @@ def build_cues():
         words = text.split(); chunks = []; cur = []
         for wd in words:
             cand = ' '.join(cur + [wd])
-            if cur and len(cand) > 44: chunks.append(' '.join(cur)); cur = [wd]
+            if cur and len(cand) > 56: chunks.append(' '.join(cur)); cur = [wd]
             else:
                 cur.append(wd)
                 if len(cand) > 26 and wd[-1] in '.,?!:”’': chunks.append(' '.join(cur)); cur = []
@@ -551,17 +551,17 @@ def draw_subs(ctx, t):
         nxt = CUES[i + 1][0] if i + 1 < len(CUES) else DUR
         if a <= t < min(b + 0.35, nxt): txt = c
     if not txt: return
-    font(ctx, 66)
-    lines = B.wrap(ctx, txt, 900)
-    lh = 84; n = len(lines)
+    font(ctx, 46)
+    lines = B.wrap(ctx, txt, 800)
+    lh = 60; n = len(lines)
     widths = [ctx.text_extents(l)[4] for l in lines]
-    bw = max(widths) + 70; bh = n * lh + 40
-    y0 = 1500 - bh / 2
-    rrect(ctx, 540 - bw / 2, y0, bw, bh, 26); setc(ctx, '#0b0814', 0.72); ctx.fill()
+    bw = max(widths) + 48; bh = n * lh + 26
+    y0 = 1530 - bh / 2
+    rrect(ctx, 540 - bw / 2, y0, bw, bh, 18); setc(ctx, '#0b0814', 0.62); ctx.fill()
     for i, (ln, wdt) in enumerate(zip(lines, widths)):
-        ctx.move_to(540 - wdt / 2, y0 + 20 + lh * i + 62); ctx.text_path(ln)
+        ctx.move_to(540 - wdt / 2, y0 + 13 + lh * i + 44); ctx.text_path(ln)
     ctx.set_line_join(cairo.LINE_JOIN_ROUND)
-    setc(ctx, '#000'); ctx.set_line_width(8); ctx.stroke_preserve(); setc(ctx, '#ffffff'); ctx.fill()
+    setc(ctx, '#000'); ctx.set_line_width(6); ctx.stroke_preserve(); setc(ctx, '#ffffff'); ctx.fill()
 
 # ---------------------------------------------------------------- flashback tint
 _yy, _xx = np.mgrid[0:H, 0:W].astype(np.float32)
@@ -610,10 +610,29 @@ def overlay(ctx, t):
         ctx.move_to(540 - e[4] / 2, 860); ctx.text_path(txt); setc(ctx, INK, a); ctx.set_line_width(10); ctx.stroke_preserve(); setc(ctx, '#ffffff', a); ctx.fill()
     draw_subs(ctx, t)
 
+def fx(ctx, t):
+    # anime accents at key moments (screen space)
+    if 21.4 <= t < 24.5:
+        ctx.push_group(); B.speed_lines(ctx, t, 1.0, 540, 900, '#fff27a'); ctx.pop_group_to_source(); ctx.paint_with_alpha(0.45 * B.win(t, 21.4, 24.5, 0.2))
+    if 26.6 <= t < 30.0:
+        B.speed_lines(ctx, t, 0.25 * B.win(t, 26.6, 30.0, 0.3), 540, 900, '#2a0a4a')
+    if 58.6 <= t < 60.2:
+        B.sfx_text(ctx, '!!', 780, 620, 170, 0.1, B.win(t, 58.6, 60.2, 0.12), '#ffffff', '#e8102e')
+    if 82.28 <= t < 84.7:
+        B.speed_lines(ctx, t, 0.75, 400, 820)
+        B.sfx_text(ctx, '!?', 760, 520, 190, -0.1, B.win(t, 82.4, 84.6, 0.12), '#fff27a', '#3b4cc0')
+
+def grade(ctx):
+    setc(ctx, '#ff7ab8', 0.07); ctx.paint()
+    g = cairo.RadialGradient(540, 960, 500, 540, 960, 1250)
+    g.add_color_stop_rgba(0, 0, 0, 0, 0); g.add_color_stop_rgba(1, 0.1, 0.02, 0.15, 0.35); ctx.set_source(g); ctx.paint()
+
 def frame(surf, t):
-    ctx = cairo.Context(surf); render(ctx, t); surf.flush()
+    tc = t; t = math.floor(t * 12) / 12
+    ctx = cairo.Context(surf); render(ctx, t); fx(ctx, t); grade(ctx); surf.flush()
+    t = tc
     if 16.4 <= t < 92.35:
-        arr = sepia(bytes(surf.get_data()), 0.32)
+        arr = sepia(bytes(surf.get_data()), 0.18)
         s2 = cairo.ImageSurface.create_for_data(bytearray(arr.tobytes()), cairo.FORMAT_ARGB32, W, H)
         ctx2 = cairo.Context(s2); overlay(ctx2, t); s2.flush(); return bytes(s2.get_data()), s2
     overlay(ctx, t); surf.flush(); return bytes(surf.get_data()), surf
