@@ -540,15 +540,14 @@ def draw_subs(ctx, t):
         nxt = CUES[i + 1][0] if i + 1 < len(CUES) else DUR
         if a <= t < min(b + 0.35, nxt): txt = c
     if not txt: return
-    font(ctx, 46)
-    lines = B.wrap(ctx, txt, 800); lh = 60; n = len(lines)
-    widths = [ctx.text_extents(l)[4] for l in lines]
-    bw = max(widths) + 48; bh = n * lh + 26; y0 = 1530 - bh / 2
-    rrect(ctx, 540 - bw / 2, y0, bw, bh, 18); setc(ctx, '#0b0814', 0.62); ctx.fill()
-    for i, (ln, wdt) in enumerate(zip(lines, widths)):
-        ctx.move_to(540 - wdt / 2, y0 + 13 + lh * i + 44); ctx.text_path(ln)
+    font(ctx, 54)
+    lines = B.wrap(ctx, txt, 900); lh = 70
+    y0 = 1500 - (len(lines) - 1) * lh / 2
+    for i, ln in enumerate(lines):
+        e = ctx.text_extents(ln); ctx.move_to(540 - e[4] / 2, y0 + i * lh + 18); ctx.text_path(ln)
     ctx.set_line_join(cairo.LINE_JOIN_ROUND)
-    setc(ctx, '#000'); ctx.set_line_width(6); ctx.stroke_preserve(); setc(ctx, '#ffffff'); ctx.fill()
+    setc(ctx, '#111111'); ctx.set_line_width(11); ctx.stroke_preserve()
+    setc(ctx, '#ffffff'); ctx.fill()
 
 # ---------------------------------------------------------------- render
 CUTS = (7.96, 9.5, 14.94, 19.0, 34.04, 43.3, 54.54, 69.4, 77.6, 93.2)
